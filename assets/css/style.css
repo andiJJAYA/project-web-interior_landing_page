@@ -11,14 +11,14 @@ html {
 /* Navbar */
 .navbar {
     background: #ffffff !important;
-    padding: 15px 0;
+    padding: 10px 0;
     border-radius: 100px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .navbar-floating {
     position: fixed;
-    top: 20px;
+    top: 15px;
     left: 50%;
     width: 95%;
     max-width: 1200px;
@@ -114,7 +114,7 @@ html {
 }
 
 .produk-card img {
-    height: 220px;
+    height: 200px;
     object-fit: cover;
     width: 100%;
 }
@@ -124,6 +124,10 @@ html {
     box-shadow: 0 10px 25px rgba(0,0,0,0.15);
 }
 
+.p-card {
+    font-size:1rem;
+}
+
 /* Layanan Background */
 .bg-light {
     background-color: #f8f9fa !important;
@@ -131,7 +135,7 @@ html {
 
 /* Layanan Titles */
 #layanan h2 {
-    font-size: 2.5rem;
+    font-size: 1.8rem;
 }
 
 .layanan-bg {
@@ -158,7 +162,7 @@ html {
 /* Portfolio Section */
 .portfolio-section {
     background: #f8f8f8;
-    padding-top: 120px !important;
+    padding-top: 70px !important;
 }
 
 .portfolio-grid {
