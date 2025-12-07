@@ -196,3 +196,95 @@ html {
         margin-bottom: 12px;
     }
 }
+
+/* Menyesuaikan Navbar di Tablet/Mobile (lebar <= 992px) */
+@media (max-width: 992px) {
+    /* Navbar Floating */
+    .navbar-floating {
+        top: 0; /* Pindah ke paling atas layar */
+        left: 0; /* Pindah ke kiri */
+        width: 100%; /* Ambil lebar penuh */
+        max-width: none; /* Hilangkan batas max-width */
+        border-radius: 0; /* Hilangkan border melengkung */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Kurangi bayangan */
+        /* Sesuaikan transform agar navigasi berada di tengah/kiri */
+        transform: none !important; 
+        opacity: 1 !important;
+        animation: none !important; /* Nonaktifkan animasi floating di mobile */
+    }
+
+    /* Padding untuk body agar konten tidak tertutup fixed navbar */
+    /* Ketinggian navbar biasanya sekitar 60-70px di mobile */
+    body {
+        padding-top: 70px; 
+    }
+
+    /* Override Bootstrap padding-top pada navbar jika perlu */
+    .navbar {
+        padding-top: 10px !important;
+        padding-bottom: 10px !important;
+    }
+
+    /* Agar section tidak terpaku pada 100vh di mobile */
+    .full-section {
+        height: auto; /* Biarkan tinggi menyesuaikan konten */
+        min-height: 100vh; /* Minimal 100vh untuk section Home */
+        padding-top: 70px; /* Kurangi padding atas agar tidak terlalu jauh */
+        padding-bottom: 50px;
+    }
+
+    /* Hapus padding-top pada section setelah home */
+    #home, #layanan, #portofolio, #about {
+        scroll-margin-top: 70px; /* Pertahankan scroll margin agar tidak tertutup */
+    }
+    
+    /* Tombol Navigasi di Navbar */
+    .navbar-nav {
+        margin-top: 10px; /* Beri sedikit jarak saat menu terbuka */
+    }
+}
+
+/* Menyesuaikan di HP Kecil (lebar <= 576px) */
+@media (max-width: 576px) {
+    /* Font Section Home */
+    #home .home-title {
+        font-size: 2.2rem !important; /* Perkecil h1 display-3 */
+        line-height: 1.2;
+    }
+
+    #home .home-subtitle {
+        font-size: 0.9rem;
+    }
+
+    /* Tombol CTA di Home */
+    #home .btn-lg {
+        font-size: 0.9rem;
+        padding: 10px 18px;
+    }
+    
+    /* Kotak Statistik di Home */
+    .home-box {
+        padding: 10px !important; /* Kurangi padding kotak statistik */
+    }
+    .home-box h2 {
+        font-size: 1.2rem; /* Perkecil judul statistik */
+    }
+    .home-box p {
+        font-size: 0.8rem;
+    }
+
+    /* Section Layanan */
+    #layanan h2 {
+        font-size: 1.5rem !important; /* Perkecil judul Layanan */
+    }
+
+    /* Section Portofolio */
+    .portfolio-section .display-6 {
+        font-size: 2rem !important; /* Perkecil judul portofolio */
+    }
+    
+    /* About Section */
+    #about h1, #about h2 {
+        font-size: 1.8rem;
+    }
+}
