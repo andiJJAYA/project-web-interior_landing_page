@@ -1,0 +1,9 @@
+<h2>Halo, {{ session['nama'] }}</h2>
+
+<ul>
+    <li>Email: (tampilkan dari DB kalau mau)</li>
+</ul>
+
+<a href="{{ url_for('logout') }}" class="btn btn-danger">
+    Logout
+</a>
