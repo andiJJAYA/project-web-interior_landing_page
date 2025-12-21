@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Living Room Service</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- CSS Project -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="bg-light">
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white mt-2 mx-5 shadow-sm">
+    <div class="container">
+
+        <!-- Logo -->
+        <a class="navbar-brand" href="{{ url_for('home') }}">
+            <img src="{{ url_for('static', filename='images/aestero-interior.png') }}"
+                 alt="Logo"
+                 height="25">
+        </a>
+
+        <!-- Tombol kembali -->
+        <a href="{{ url_for('home') }}"
+           class="btn btn-primary rounded-pill fw-bold px-3">
+            ← Kembali
+        </a>
+
+    </div>
+</nav>
+
+<!-- Service section -->
+<section class="container py-5">
+    <h2 class="fw-bold text-center mb-2">Living Room Design</h2>
+    <p class="text-center text-muted mb-3">
+        Pilih konsep desain ruang tamu yang sesuai dengan gaya dan kebutuhan Anda.
+    </p>
+
+    <div class="row g-4">
+
+        <!-- Card 1 -->
+        <div class="col-md-3">
+            <div class="card service-card h-100">
+                <img src="{{ url_for('static', filename='images/Living1.png') }}"
+                     class="card-img-top">
+                <div class="card-body">
+                    <h5>Living Room Modern</h5>
+                    <p>Desain modern minimalis dengan pencahayaan natural.</p>
+                    <div class="price mb-3">Rp 7.500.000</div>
+                    <button class="btn btn-primary w-100"
+                            onclick="openOrder('Living Room Modern', 7500000)">
+                        Pesan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="col-md-3">
+            <div class="card service-card h-100">
+                <img src="{{ url_for('static', filename='images/Living2.png') }}"
+                     class="card-img-top">
+                <div class="card-body">
+                    <h5>Living Room Classic</h5>
+                    <p>Nuansa klasik mewah dengan sentuhan artistik.</p>
+                    <div class="price mb-3">Rp 8.500.000</div>
+                    <button class="btn btn-primary w-100"
+                            onclick="openOrder('Living Room Classic', 8500000)">
+                        Pesan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div class="col-md-3">
+            <div class="card service-card h-100">
+                <img src="{{ url_for('static', filename='images/Living3.png') }}"
+                     class="card-img-top">
+                <div class="card-body">
+                    <h5>Living Room Minimalist</h5>
+                    <p>
+                        Konsep simpel, rapi, dan fungsional untuk ruang yang lega dan efisien.
+                    </p>
+                    <div class="price mb-3">Rp 6.500.000</div>
+                    <button class="btn btn-primary w-100"
+                            onclick="openOrder('Living Room Minimalist', 6500000)">
+                        Pesan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div class="col-md-3">
+            <div class="card service-card h-100">
+                <img src="{{ url_for('static', filename='images/Living4.png') }}"
+                     class="card-img-top">
+                <div class="card-body">
+                    <h5>Living Room Luxury</h5>
+                    <p>Desain premium dengan material eksklusif.</p>
+                    <div class="price mb-3">Rp 10.000.000</div>
+                    <button class="btn btn-primary w-100"
+                            onclick="openOrder('Living Room Luxury', 10000000)">
+                        Pesan
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- Modal order -->
+<div class="modal fade" id="orderModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- Modal header -->
+            <div class="modal-header">
+                <h5 class="modal-title">Form Pemesanan</h5>
+                <button type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Form order -->
+            <form id="orderForm">
+                <div class="modal-body">
+
+                    <input id="nama"
+                           class="form-control mb-2"
+                           placeholder="Nama Lengkap"
+                           required>
+
+                    <input id="telepon"
+                           class="form-control mb-2"
+                           placeholder="No. Telepon"
+                           required>
+
+                    <textarea id="alamat"
+                              class="form-control mb-2"
+                              placeholder="Alamat Lengkap"
+                              required></textarea>
+
+                    <input id="tanggal"
+                           type="date"
+                           class="form-control mb-2"
+                           required>
+
+                    <select id="bank"
+                            class="form-select mb-2"
+                            required>
+                        <option value="">-- Pilih Bank --</option>
+                        <option>BCA</option>
+                        <option>Mandiri</option>
+                        <option>BNI</option>
+                        <option>BRI</option>
+                    </select>
+
+                    <!-- Data otomatis -->
+                    <input id="layanan"
+                           class="form-control mb-2"
+                           readonly>
+
+                    <input id="harga"
+                           class="form-control fw-bold"
+                           readonly>
+
+                </div>
+
+                <!-- Modal footer -->
+                <div class="modal-footer">
+                    <button type="button"
+                            class="btn btn-primary w-100"
+                            onclick="submitOrder()">
+                        Konfirmasi Pesanan
+                    </button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal success -->
+<div class="modal fade" id="successModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center p-4">
+            <h4 class="text-success mb-3">✔ Pemesanan Berhasil</h4>
+            <p>Terima kasih, pesanan Anda telah kami terima.</p>
+            <button class="btn btn-primary" data-bs-dismiss="modal">OK</button>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- JS Project -->
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>

@@ -1,9 +1,10 @@
-import mysql.connector
+import pymysql
 
 def get_connection():
-    return mysql.connector.connect(
+    return pymysql.connect(
         host="localhost",
         user="root",
-        password="",   # default XAMPP kosong
-        database="interior_db"
+        password="",      
+        database="interior_db",
+        cursorclass=pymysql.cursors.DictCursor  
     )

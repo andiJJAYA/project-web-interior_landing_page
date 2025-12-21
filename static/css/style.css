@@ -1,14 +1,15 @@
+/* Smooth scroll */
 html {
     scroll-behavior: smooth;
 }
 
-/* Section */
+/* Full section layout */
 .full-section {
     height: 100vh;
     padding-top: 120px;
 }
 
-/* Navbar */
+/* Navbar base */
 .navbar {
     background: #ffffff !important;
     padding: 10px 0;
@@ -16,6 +17,7 @@ html {
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
+/* Floating navbar */
 .navbar-floating {
     position: fixed;
     top: 15px;
@@ -29,7 +31,7 @@ html {
     animation-delay: 0.1s;
 }
 
-/* Nav Links */
+/* Navbar links */
 .nav-link {
     color: #000 !important;
     font-weight: 600;
@@ -41,7 +43,7 @@ html {
     background-color: #0d6efd;
 }
 
-/* Home Section */
+/* Home section */
 #home {
     background-image: url('../images/Bg.jpg');
     background-size: cover;
@@ -51,6 +53,7 @@ html {
     z-index: 1;
 }
 
+/* Home overlay */
 #home::before {
     content: "";
     position: absolute;
@@ -62,28 +65,52 @@ html {
     z-index: -1;
 }
 
-/* Animations */
+/* Keyframe animations */
 @keyframes slideDown {
-    0% { transform: translate(-50%, -100px); opacity: 0; }
-    100% { transform: translate(-50%, 0); opacity: 1; }
+    0% {
+        transform: translate(-50%, -100px);
+        opacity: 0;
+    }
+    100% {
+        transform: translate(-50%, 0);
+        opacity: 1;
+    }
 }
 
 @keyframes zoomIn {
-    0% { transform: scale(0.8); opacity: 0; }
-    100% { transform: scale(1); opacity: 1; }
+    0% {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
 }
 
 @keyframes slideInLeft {
-    0% { transform: translateX(-50px); opacity: 0; }
-    100% { transform: translateX(0); opacity: 1; }
+    0% {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 @keyframes slideInRight {
-    0% { transform: translateX(50px); opacity: 0; }
-    100% { transform: translateX(0); opacity: 1; }
+    0% {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
-/* Animation Apply */
+/* Animation apply */
 .home-content-wrapper {
     animation: zoomIn 0.8s ease-out forwards;
     opacity: 0;
@@ -107,7 +134,7 @@ html {
     animation-delay: 1.0s;
 }
 
-/* Produk Cards */
+/* Product cards */
 .produk-card {
     transition: 0.3s ease;
     border-radius: 15px;
@@ -121,19 +148,19 @@ html {
 
 .produk-card:hover {
     transform: translateY(-5px);
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
 }
 
 .p-card {
-    font-size:1rem;
+    font-size: 1rem;
 }
 
-/* Layanan Background */
+/* Light background */
 .bg-light {
     background-color: #f8f9fa !important;
 }
 
-/* Layanan Titles */
+/* Layanan section */
 #layanan h2 {
     font-size: 1.8rem;
 }
@@ -142,13 +169,13 @@ html {
     background-color: #f0efefa7;
 }
 
-/* Layanan Box */
+/* Layanan box */
 .layanan-box:hover {
     transform: scale(1.03);
-    transition: .3s;
+    transition: 0.3s;
 }
 
-/* Footer */
+/* Footer text */
 .footer h4,
 .footer h5 {
     font-weight: 700;
@@ -159,7 +186,7 @@ html {
     opacity: 0.9;
 }
 
-/* Portfolio Section */
+/* Portfolio section */
 .portfolio-section {
     background-color: #f0efefa7;
     padding-top: 70px !important;
@@ -178,13 +205,38 @@ html {
     object-fit: cover;
 }
 
-.grid-wide-1 { grid-column: 1 / span 2; grid-row: 1; }
-.grid-tall-1 { grid-column: 3; grid-row: 1 / span 2; }
-.grid-small-1 { grid-column: 1; grid-row: 2; }
-.grid-wide-2 { grid-column: 1 / span 2; grid-row: 3; }
-.grid-tall-2 { grid-column: 2; grid-row: 2; }
-.grid-small-2 { grid-column: 3; grid-row: 3; }
+/* Portfolio grid layout */
+.grid-wide-1 {
+    grid-column: 1 / span 2;
+    grid-row: 1;
+}
 
+.grid-tall-1 {
+    grid-column: 3;
+    grid-row: 1 / span 2;
+}
+
+.grid-small-1 {
+    grid-column: 1;
+    grid-row: 2;
+}
+
+.grid-wide-2 {
+    grid-column: 1 / span 2;
+    grid-row: 3;
+}
+
+.grid-tall-2 {
+    grid-column: 2;
+    grid-row: 2;
+}
+
+.grid-small-2 {
+    grid-column: 3;
+    grid-row: 3;
+}
+
+/* Portfolio mobile */
 @media (max-width: 768px) {
     .portfolio-grid {
         display: flex;
@@ -197,58 +249,52 @@ html {
     }
 }
 
-/* Menyesuaikan Navbar di Tablet/Mobile (lebar <= 992px) */
+/* Navbar tablet/mobile */
 @media (max-width: 992px) {
-    /* Navbar Floating */
     .navbar-floating {
-        top: 0; /* Pindah ke paling atas layar */
-        left: 0; /* Pindah ke kiri */
-        width: 100%; /* Ambil lebar penuh */
-        max-width: none; /* Hilangkan batas max-width */
-        border-radius: 0; /* Hilangkan border melengkung */
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Kurangi bayangan */
-        /* Sesuaikan transform agar navigasi berada di tengah/kiri */
-        transform: none !important; 
+        top: 0;
+        left: 0;
+        width: 100%;
+        max-width: none;
+        border-radius: 0;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transform: none !important;
         opacity: 1 !important;
-        animation: none !important; /* Nonaktifkan animasi floating di mobile */
+        animation: none !important;
     }
 
-    /* Padding untuk body agar konten tidak tertutup fixed navbar */
-    /* Ketinggian navbar biasanya sekitar 60-70px di mobile */
     body {
-        padding-top: 70px; 
+        padding-top: 70px;
     }
 
-    /* Override Bootstrap padding-top pada navbar jika perlu */
     .navbar {
         padding-top: 10px !important;
         padding-bottom: 10px !important;
     }
 
-    /* Agar section tidak terpaku pada 100vh di mobile */
     .full-section {
-        height: auto; /* Biarkan tinggi menyesuaikan konten */
-        min-height: 100vh; /* Minimal 100vh untuk section Home */
-        padding-top: 70px; /* Kurangi padding atas agar tidak terlalu jauh */
+        height: auto;
+        min-height: 100vh;
+        padding-top: 70px;
         padding-bottom: 50px;
     }
 
-    /* Hapus padding-top pada section setelah home */
-    #home, #layanan, #portofolio, #about {
-        scroll-margin-top: 70px; /* Pertahankan scroll margin agar tidak tertutup */
+    #home,
+    #layanan,
+    #portofolio,
+    #about {
+        scroll-margin-top: 70px;
     }
-    
-    /* Tombol Navigasi di Navbar */
+
     .navbar-nav {
-        margin-top: 10px; /* Beri sedikit jarak saat menu terbuka */
+        margin-top: 10px;
     }
 }
 
-/* Menyesuaikan di HP Kecil (lebar <= 576px) */
+/* Small mobile */
 @media (max-width: 576px) {
-    /* Font Section Home */
     #home .home-title {
-        font-size: 2.2rem !important; /* Perkecil h1 display-3 */
+        font-size: 2.2rem !important;
         line-height: 1.2;
     }
 
@@ -256,35 +302,141 @@ html {
         font-size: 0.9rem;
     }
 
-    /* Tombol CTA di Home */
     #home .btn-lg {
         font-size: 0.9rem;
         padding: 10px 18px;
     }
-    
-    /* Kotak Statistik di Home */
+
     .home-box {
-        padding: 10px !important; /* Kurangi padding kotak statistik */
+        padding: 10px !important;
     }
+
     .home-box h2 {
-        font-size: 1.2rem; /* Perkecil judul statistik */
+        font-size: 1.2rem;
     }
+
     .home-box p {
         font-size: 0.8rem;
     }
 
-    /* Section Layanan */
     #layanan h2 {
-        font-size: 1.5rem !important; /* Perkecil judul Layanan */
+        font-size: 1.5rem !important;
     }
 
-    /* Section Portofolio */
     .portfolio-section .display-6 {
-        font-size: 2rem !important; /* Perkecil judul portofolio */
+        font-size: 2rem !important;
     }
-    
-    /* About Section */
-    #about h1, #about h2 {
+
+    #about h1,
+    #about h2 {
         font-size: 1.8rem;
     }
+}
+
+/* Service card */
+.service-card {
+    border: none;
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.service-card img {
+    height: 190px;
+    object-fit: cover;
+}
+
+.service-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.service-card h5 {
+    font-weight: 700;
+}
+
+.service-card p {
+    font-size: 14px;
+    color: #6c757d;
+}
+
+.service-card .price {
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+/* Service card border */
+.service-card {
+    border: 1.5px solid #e0e0e0;
+    border-radius: 12px;
+    transition: 0.3s ease;
+    overflow: hidden;
+}
+
+.service-card:hover {
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+}
+
+/* Card image */
+.service-card img {
+    height: 200px;
+    object-fit: cover;
+}
+
+/* Price text */
+.price {
+    font-weight: bold;
+    color: #0d6efd;
+}
+
+/* Account wrapper */
+.content-wrapper {
+    max-width: 720px;
+    margin: auto;
+}
+
+/* Capsule navbar */
+.navbar-capsule {
+    max-width: 920px;
+    margin: 20px auto;
+    padding: 10px 18px;
+    border-radius: 50px;
+}
+
+/* Card base */
+.card {
+    border-radius: 14px;
+    border: none;
+}
+
+/* Form focus */
+.form-control:focus {
+    box-shadow: none;
+    border-color: #0d6efd;
+}
+
+/* Konsultasi card */
+.konsultasi-card {
+    border-radius: 16px;
+}
+
+.konsultasi-card h1 {
+    font-weight: 700;
+}
+
+/* Submit button */
+.btn-kirim {
+    border-radius: 30px;
+    padding: 12px;
+    font-weight: 600;
+}
+
+/* Footer links */
+.footer a {
+    transition: color 0.3s ease;
+}
+
+.footer a.text-white:hover {
+    color: #b0b0b0c1 !important;
 }
