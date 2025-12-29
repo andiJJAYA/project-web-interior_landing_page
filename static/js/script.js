@@ -42,7 +42,6 @@ function openOrder(service, price) {
 function submitOrder() {
     const form = document.getElementById("orderForm");
 
-    // form validation
     if (!form.checkValidity()) {
         form.reportValidity();
         return;
@@ -58,21 +57,31 @@ function submitOrder() {
         harga: selectedPrice
     };
 
-    // simulate send data
-    console.log("ORDER DATA:", data);
+    fetch('/order', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data)
+    })
+    .then(response => {
+        if (response.ok) {
+            const modalOrder = bootstrap.Modal.getInstance(document.getElementById("orderModal"));
+            modalOrder.hide();
 
-    // close order modal
-    const modalOrder = bootstrap.Modal.getInstance(
-        document.getElementById("orderModal")
-    );
-    modalOrder.hide();
+            const successModal = new bootstrap.Modal(document.getElementById("successModal"));
+            successModal.show();
 
-    // show success modal
-    const successModal = new bootstrap.Modal(
-        document.getElementById("successModal")
-    );
-    successModal.show();
-
-    // reset form
-    form.reset();
+            form.reset();
+        } else if (response.status === 401) {
+            alert("Sesi berakhir atau Anda belum login. Silakan login kembali.");
+            window.location.href = "/login";
+        } else {
+            alert("Terjadi kesalahan saat menyimpan pesanan.");
+        }
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        alert("Gagal terhubung ke server.");
+    });
 }
