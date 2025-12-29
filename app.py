@@ -63,7 +63,6 @@ def login():
             return redirect("/")
 
         return render_template("login.html", error="Email atau password salah")
-
     return render_template("login.html")
 
 @app.route("/register", methods=["GET", "POST"])
@@ -92,7 +91,6 @@ def register():
         conn.close()
 
         return redirect("/login")
-
     return render_template("register.html")
 
 @app.route("/logout")
@@ -106,37 +104,36 @@ def akun():
     conn = get_connection()
     cursor = conn.cursor()
 
-    # Update profil user
     if request.method == "POST":
+        nama = request.form["nama"] # Menambahkan input nama
         alamat = request.form["alamat"]
         no_hp = request.form["no_hp"]
         umur = request.form["umur"]
 
+        # Logika: Jika input kosong, di DB akan tersimpan sebagai NULL atau string kosong
         cursor.execute(
             """
             UPDATE users
-            SET alamat=%s, no_hp=%s, umur=%s
+            SET nama=%s, alamat=%s, no_hp=%s, umur=%s
             WHERE id_user=%s
             """,
-            (alamat, no_hp, umur, session["user_id"])
+            (nama, alamat, no_hp, umur, session["user_id"])
         )
         conn.commit()
+        session["nama"] = nama 
 
     cursor.execute(
         "SELECT nama, email, alamat, no_hp, umur FROM users WHERE id_user=%s",
         (session["user_id"],)
     )
     user = cursor.fetchone()
-
+    
+    # ... (bagian query order tetap sama)
     cursor.execute(
         """
-        SELECT
-            layanan AS service_name,
-            tanggal AS order_date
-        FROM orders
-        WHERE id_user=%s
-        ORDER BY tanggal DESC
-        LIMIT 1
+        SELECT layanan AS service_name, tanggal AS order_date
+        FROM orders WHERE id_user=%s
+        ORDER BY tanggal DESC LIMIT 1
         """,
         (session["user_id"],)
     )
@@ -144,7 +141,6 @@ def akun():
 
     cursor.close()
     conn.close()
-
     return render_template("akun.html", user=user, order=order)
 
 @app.route("/order", methods=["POST"])
