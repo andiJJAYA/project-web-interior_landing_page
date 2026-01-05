@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Dashboard - Interior</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body>
+
+    <div class="sidebar">
+        <h4>Interior Admin</h4>
+        <hr>
+        <a href="/admin?page=dashboard" class="{{ 'active' if page == 'dashboard' }}">Dashboard</a>
+        <a href="/admin?page=orders" class="{{ 'active' if page == 'orders' }}">Pesanan</a>
+        <a href="/admin?page=konsultasi" class="{{ 'active' if page == 'konsultasi' }}">Konsultasi</a>
+        <a href="/admin?page=users" class="{{ 'active' if page == 'users' }}">Data User</a>
+        <hr>
+        <a href="/logout" class="text-danger">Logout</a>
+    </div>
+
+    <div class="content">
+        <h2 class="mb-4 text-capitalize">{{ page }}</h2>
+
+        {% if page == 'dashboard' %}
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card-stat">
+                    <h5>Total User</h5>
+                    <h2 class="text-primary">{{ data.total_users }}</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-stat">
+                    <h5>Total Pesanan</h5>
+                    <h2 class="text-success">{{ data.total_orders }}</h2>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card-stat">
+                    <h5>Total Konsultasi</h5>
+                    <h2 class="text-warning">{{ data.total_konsultasi }}</h2>
+                </div>
+            </div>
+        </div>
+
+        {% elif page == 'orders' %}
+        <table class="table table-striped card-stat">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Layanan</th>
+                    <th>Harga</th>
+                    <th>Status</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data.orders %}
+                <tr>
+                    <td>{{ row.id_order }}</td>
+                    <td>{{ row.nama }}</td>
+                    <td>{{ row.layanan }}</td>
+                    <td>Rp {{ "{:,.0f}".format(row.harga) }}</td>
+                    <td>
+                        <span class="badge 
+                            {% if row.status == 'Diterima' %} bg-success 
+                            {% elif row.status == 'Dibatalkan' %} bg-danger 
+                            {% else %} bg-warning {% endif %}">
+                            {{ row.status or 'Pending' }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if row.status == 'Pending' or not row.status %}
+                        <a href="/admin/update_order/{{ row.id_order }}/terima" class="btn btn-sm btn-outline-success">Terima</a>
+                        <a href="/admin/update_order/{{ row.id_order }}/batal" class="btn btn-sm btn-outline-danger">Batalkan</a>
+                        {% else %}
+                        <span class="text-muted small">Selesai</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% elif page == 'konsultasi' %}
+        <table class="table table-striped card-stat">
+            <thead>
+                <tr>
+                    <th>Nama</th>
+                    <th>Pesan User</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data.konsultasi %}
+                <tr>
+                    <td>{{ row.nama }}</td>
+                    <td>{{ row.pesan }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalBalas{{ row.id_konsultasi }}">
+                            Balas
+                        </button>
+                    </td>
+                </tr>
+
+                <div class="modal fade" id="modalBalas{{ row.id_konsultasi }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="/admin/balas_konsultasi" method="POST">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Balas Konsultasi: {{ row.nama }}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body text-dark">
+                                    <input type="hidden" name="id_konsultasi" value="{{ row.id_konsultasi }}">
+                                    <div class="mb-3">
+                                        <label>Pesan Balasan Admin:</label>
+                                        <textarea name="pesan_balas" class="form-control" rows="4" required placeholder="Ketik jawaban minimal 5 percakapan ke depan..."></textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Kirim Balasan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        {% elif page == 'users' %}
+        <table class="table table-striped card-stat">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nama</th>
+                    <th>Email</th>
+                    <th>Aksi</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for row in data.users %}
+                <tr>
+                    <td>{{ row.id_user }}</td>
+                    <td>{{ row.nama }}</td>
+                    <td>{{ row.email }}</td>
+                    <td>
+                        <button class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#editUser{{ row.id_user }}">Edit</button>
+                        
+                        <a href="/admin/delete_user/{{ row.id_user }}" class="btn btn-sm btn-danger" onclick="return confirm('Yakin ingin menghapus user ini?')">Hapus</a>
+                    </td>
+                </tr>
+
+                <div class="modal fade" id="editUser{{ row.id_user }}" tabindex="-1">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <form action="/admin/edit_user" method="POST">
+                                <div class="modal-header">
+                                    <h5 class="modal-title">Edit Data User</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                </div>
+                                <div class="modal-body text-dark text-start">
+                                    <input type="hidden" name="id_user" value="{{ row.id_user }}">
+                                    <div class="mb-3">
+                                        <label>Nama</label>
+                                        <input type="text" name="nama" class="form-control" value="{{ row.nama }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Email</label>
+                                        <input type="email" name="email" class="form-control" value="{{ row.email }}" required>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>No HP</label>
+                                        <input type="text" name="no_hp" class="form-control" value="{{ row.no_hp or '' }}">
+                                    </div>
+                                    <div class="mb-3">
+                                        <label>Alamat</label>
+                                        <textarea name="alamat" class="form-control">{{ row.alamat or '' }}</textarea>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

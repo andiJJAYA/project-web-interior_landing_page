@@ -2,130 +2,121 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>Akun Saya</title>
-
+    <title>Akun Saya - Interior</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
-
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
-
 <body class="bg-light">
 
-<nav class="navbar navbar-capsule bg-white shadow-sm">
+<nav class="navbar navbar-expand-lg navbar-light bg-white mt-2 mx-5 shadow-sm">
     <div class="container-fluid d-flex justify-content-between align-items-center">
-
         <a class="navbar-brand" href="{{ url_for('home') }}">
-            <img src="{{ url_for('static', filename='images/aestero-interior.png') }}"
-                 height="26"
-                 alt="Logo">
+            <img src="{{ url_for('static', filename='images/aestero-interior.png') }}" height="26" alt="Logo">
         </a>
-
         <div class="d-flex gap-2">
-            <a href="{{ url_for('home') }}"
-               class="btn btn-primary rounded-pill fw-bold px-3">
-                ← Kembali
-            </a>
-            <a href="{{ url_for('logout') }}"
-               class="btn btn-primary rounded-pill fw-bold px-3">
-                Logout
-            </a>
+            <a href="{{ url_for('home') }}" class="btn btn-outline-primary rounded-pill fw-bold px-3">← Kembali</a>
+            <a href="{{ url_for('logout') }}" class="btn btn-danger rounded-pill fw-bold px-3">Logout</a>
         </div>
-
     </div>
 </nav>
 
-<div class="container mt-4 content-wrapper">
-    <div class="card shadow-sm mb-4">
-        <div class="card-body">
-            <h4 class="mb-1">Halo 👋 {{ user.nama }}</h4>
-            <p class="text-muted mb-0">
-                Selamat datang di halaman akun Anda
-            </p>
+<div class="container mt-4 mb-5">
+    <div class="row">
+        <div class="col-md-5">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white fw-bold">📝 Data Akun</div>
+                <div class="card-body">
+                    <form method="POST">
+                        <div class="mb-3">
+                            <label class="form-label small">Nama Lengkap</label>
+                            <input type="text" name="nama" class="form-control" value="{{ user.nama }}" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small">Alamat</label>
+                            <input type="text" name="alamat" class="form-control" value="{{ user.alamat or '' }}">
+                        </div>
+                        <div class="mb-3 row">
+                            <div class="col-6">
+                                <label class="form-label small">No HP</label>
+                                <input type="text" name="no_hp" class="form-control" value="{{ user.no_hp or '' }}">
+                            </div>
+                            <div class="col-6">
+                                <label class="form-label small">Umur</label>
+                                <input type="number" name="umur" class="form-control" value="{{ user.umur or '' }}">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary w-100 rounded-pill mt-2">Simpan Perubahan</button>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card shadow-sm">
+                <div class="card-header bg-white fw-bold">📦 Status Pemesanan</div>
+                <div class="card-body">
+                    {% if order %}
+                        <div class="d-flex justify-content-between align-items-center border-bottom pb-2">
+                            <div>
+                                <h6 class="mb-0">{{ order.service_name }}</h6>
+                                <small class="text-muted">{{ order.order_date }}</small>
+                            </div>
+                            <span class="status-badge 
+                                {% if order.status == 'Diterima' %} bg-success text-white 
+                                {% elif order.status == 'Dibatalkan' %} bg-danger text-white 
+                                {% else %} bg-warning text-dark {% endif %}">
+                                {{ order.status or 'Pending' }}
+                            </span>
+                        </div>
+                    {% else %}
+                        <p class="text-muted text-center mb-0">Belum ada pesanan.</p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-7">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white fw-bold">💬 Konsultasi & Balasan Admin</div>
+                <div class="card-body">
+                    {% if konsultasi_list %}
+                        {% for konsul in konsultasi_list %}
+                            <div class="mb-4 border rounded p-3 bg-white">
+                                <p class="mb-1"><strong>Pesan Anda:</strong> {{ konsul.pesan }}</p>
+                                <hr>
+                                
+                                <div class="chat-box mb-3">
+                                    {% set count = namespace(value=0) %}
+                                    {% for balas in balasan_list if balas.id_konsultasi == konsul.id_konsultasi %}
+                                        <div class="bubble {{ 'bubble-admin' if balas.pengirim == 'admin' else 'bubble-user' }}">
+                                            {{ balas.pesan_balas }}
+                                        </div>
+                                        {% set count.value = count.value + 1 %}
+                                    {% endfor %}
+                                    
+                                    {% if count.value == 0 %}
+                                        <p class="text-muted text-center small">Belum ada balasan dari admin.</p>
+                                    {% endif %}
+                                </div>
+
+                                <form action="/admin/balas_konsultasi" method="POST" class="d-flex gap-2">
+                                    <input type="hidden" name="id_konsultasi" value="{{ konsul.id_konsultasi }}">
+                                    <input type="hidden" name="pengirim" value="user"> 
+                                    <input type="text" name="pesan_balas" class="form-control form-control-sm" placeholder="Balas admin..." required>
+                                    <button type="submit" class="btn btn-sm btn-primary px-3">Kirim</button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="text-center py-4">
+                            <p class="text-muted">Anda belum pernah mengirim pesan konsultasi.</p>
+                            <a href="/konsultasi" class="btn btn-sm btn-outline-primary">Mulai Konsultasi</a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
         </div>
     </div>
-
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-white fw-semibold">
-            Data Akun
-        </div>
-        <div class="card-body">
-
-            <form method="POST">
-                <div class="mb-3">
-                    <label class="form-label">Nama Lengkap</label>
-                    <input type="text"
-                           name="nama"
-                           class="form-control"
-                           value="{{ user.nama }}"
-                           required>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Email</label>
-                    <input type="email"
-                           class="form-control bg-light"
-                           value="{{ user.email }}"
-                           disabled>
-                    <small class="text-muted">Email tidak dapat diubah.</small>
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Alamat</label>
-                    <input type="text"
-                           name="alamat"
-                           class="form-control"
-                           placeholder="Kosongkan untuk menghapus"
-                           value="{{ user.alamat or '' }}">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">No HP</label>
-                    <input type="text"
-                           name="no_hp"
-                           class="form-control"
-                           placeholder="Kosongkan untuk menghapus"
-                           value="{{ user.no_hp or '' }}">
-                </div>
-
-                <div class="mb-3">
-                    <label class="form-label">Umur</label>
-                    <input type="number"
-                           name="umur"
-                           class="form-control"
-                           placeholder="Kosongkan untuk menghapus"
-                           value="{{ user.umur or '' }}">
-                </div>
-
-                <button class="btn btn-primary w-100 rounded-pill">
-                    💾 Simpan Perubahan
-                </button>
-            </form>
-        </div>
-    </div>
-
-    <div class="card shadow-sm mb-4">
-        <div class="card-header bg-white fw-semibold">
-            Status Pemesanan
-        </div>
-        <div class="card-body">
-
-            {% if order %}
-                <div class="alert alert-success mb-0">
-                    Anda memesan layanan <b>{{ order.service_name }}</b><br>
-                    <small class="text-muted">
-                        Tanggal order: {{ order.order_date }}
-                    </small>
-                </div>
-            {% else %}
-                <div class="alert alert-warning mb-0">
-                    Anda belum melakukan pemesanan layanan
-                </div>
-            {% endif %}
-
-        </div>
-    </div>
-
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

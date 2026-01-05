@@ -263,6 +263,12 @@ html {
         animation: none !important;
     }
 
+    .navbar-nav + .d-flex, 
+    .navbar-collapse .btn {
+        margin-top: 15px; 
+        margin-bottom: 10px;
+    }
+
     body {
         padding-top: 70px;
     }
@@ -394,6 +400,43 @@ html {
 .content-wrapper {
     max-width: 720px;
     margin: auto;
+}
+
+.chat-box { 
+    max-height: 300px; 
+    overflow-y: auto; 
+    background: #f1f1f1; 
+    padding: 15px; 
+    border-radius: 10px; 
+}
+
+.bubble { 
+    padding: 8px 15px; 
+    border-radius: 15px; 
+    margin-bottom: 10px; 
+    max-width: 80%; 
+    display: inline-block; 
+}
+
+.bubble-admin { 
+    background: #007bff; 
+    color: white; 
+    float: left; 
+    clear: both; 
+}
+
+.bubble-user { 
+    background: #e2e2e2; 
+    color: #333; 
+    float: right; 
+    clear: both; 
+    text-align: right; 
+}
+
+.status-badge { 
+    font-size: 0.8rem; 
+    padding: 5px 10px; 
+    border-radius: 20px; 
 }
 
 /* Capsule navbar */
